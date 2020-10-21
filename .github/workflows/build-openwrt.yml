@@ -12,15 +12,15 @@ jobs:
     - name: Clone source code
       run: |
         git clone -b 19.07 --single-branch https://github.com/Lienol/openwrt openwrt19
-        mv -f feeds.conf.default openwrt19/feeds.conf.default
+        [ -e feeds.conf.default ] && mv feeds.conf.default openwrt19/feeds.conf.default
         cd openwrt19
         ./scripts/feeds update -a
         ./scripts/feeds install -a
     
     - name: Generate config file
       run: |
-        mv -f .config openwrt19/.config
-    
+        [ -e .config ] && mv .config openwrt19/.config
+        
     - name: Download package
       run: |
         cd openwrt19 && make -j8 download V=s
